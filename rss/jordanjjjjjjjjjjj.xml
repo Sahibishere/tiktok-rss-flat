@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
+  <channel>
+    <title>jordanjjjjjjjjjjj TikTok</title>
+    <link>https://raw.githubusercontent.com/conoro/tiktok-rss-flat/main/rss/jordanjjjjjjjjjjj.xml</link>
+    <description>OK Boomer, all the latest TikToks from jordanjjjjjjjjjjj</description>
+    <atom:link href="https://raw.githubusercontent.com/conoro/tiktok-rss-flat/main/rss/jordanjjjjjjjjjjj.xml" rel="self"/>
+    <docs>http://www.rssboard.org/rss-specification</docs>
+    <generator>python-feedgen</generator>
+    <image>
+      <url>https://raw.githubusercontent.com/conoro/tiktok-rss-flat/main/tiktok-rss.png</url>
+      <title>jordanjjjjjjjjjjj TikTok</title>
+      <link>https://raw.githubusercontent.com/conoro/tiktok-rss-flat/main/rss/jordanjjjjjjjjjjj.xml</link>
+    </image>
+    <language>en</language>
+    <lastBuildDate>Fri, 14 Jul 2023 06:34:20 +0000</lastBuildDate>
+    <item>
+      <title>No Title</title>
+      <link>https://tiktok.com/@jordanjjjjjjjjjjj/video/7255558904275406123</link>
+      <description>&lt;img src="https://raw.githubusercontent.com/conoro/tiktok-rss-flat/main/thumbnails/jordanjjjjjjjjjjj/screenshot_9b36bf7d23e2436d9342a713009b34fb~tplv-photomode-image.jpeg.jpg" / &gt; No Description</description>
+      <guid isPermaLink="false">https://tiktok.com/@jordanjjjjjjjjjjj/video/7255558904275406123</guid>
+      <pubDate>Fri, 14 Jul 2023 06:34:20 +0000</pubDate>
+    </item>
+  </channel>
+</rss>
