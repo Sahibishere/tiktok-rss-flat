@@ -11,7 +11,6 @@ from playwright.async_api import async_playwright, Playwright
 from pathlib import Path
 from urllib.parse import urlparse
 
-
 # Edit config.py to change your URLs
 ghRawURL = config.ghRawURL
 
@@ -67,15 +66,18 @@ async def user_videos():
                         fe.published(ts)
                         fe.updated(ts)
                         updated = max(ts, updated) if updated else ts
+                        
                         if video.as_dict['desc']:
                             fe.title(video.as_dict['desc'][0:255])
                         else:
                             fe.title("No Title")
                         fe.link(href=link)
+                        
                         if video.as_dict['desc']:
-                            content = video.as_dict['desc'][0:255]
+                            content_text = video.as_dict['desc'][0:255]
                         else:
-                            content = "No Description"
+                            content_text = "No Description"
+                            
                         if video.as_dict['video']['cover']:
                             videourl = video.as_dict['video']['cover']
                             parsed_url = urlparse(videourl)
@@ -84,15 +86,29 @@ async def user_videos():
 
                             screenshotsubpath = "thumbnails/" + user + "/screenshot_" + last_segment + ".jpg"
                             screenshotpath = os.path.dirname(os.path.realpath(__file__)) + "/" + screenshotsubpath
+                            
                             if not os.path.isfile(screenshotpath):
                                 async with async_playwright() as playwright:
                                     await runscreenshot(playwright, videourl, screenshotpath)
                             screenshoturl =  ghRawURL + screenshotsubpath
-                            content = '<img src="' + screenshoturl + '" / > ' + content    
-                            #content = screenshoturl + ' ' + content    
-                            #content = '<media:content url="' + screenshoturl + '" type="image/jpeg" medium="image"> ' + content 
-                            #content = '<![CDATA[<img src="' + screenshoturl + '" />]]> ' + content
-
+                            
+                            # Extract direct video URL
+                            play_addr = video.as_dict.get('video', {}).get('playAddr', '')
+                            
+                            if play_addr:
+                                # Inject HTML5 Video Player into the RSS content
+                                content = f'''
+                                <video controls poster="{screenshoturl}" style="width:100%; max-width:500px;" preload="none">
+                                    <source src="{play_addr}" type="video/mp4">
+                                </video>
+                                <br><p>{content_text}</p>
+                                '''
+                                # Add enclosure for dedicated RSS readers/podcast apps
+                                fe.enclosure(play_addr, "0", "video/mp4")
+                            else:
+                                # Fallback to original image-only behavior if play_addr is missing
+                                content = '<img src="' + screenshoturl + '" / > ' + content_text  
+                            
                         fe.content(content)
                     fg.updated(updated)
                     fg.rss_file('rss/' + user + '.xml', pretty=True) # Write the RSS feed to a file
@@ -100,7 +116,6 @@ async def user_videos():
                         #print(video.as_dict)
                 except Exception as e:
                     print(e)
-
 
 if __name__ == "__main__":
     asyncio.run(user_videos())
